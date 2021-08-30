@@ -1,8 +1,13 @@
-# Single-file publishing to Windows target fails when run on Linux
+# .NET 3.1 Single-file publishing to Windows EXE fails when run on Linux
 
-On Linux, clone the repository and run:
+On Linux, verify you are running dotnet 3.1:
 ```
-dotnet publish /property:PublishProfile=FolderProfile /bl
+> dotnet --version
+3.1.412
+```
+Clone this repository and run this command to package the program in single file executable:
+```
+> dotnet publish /property:PublishProfile=FolderProfile /bl
 ```
 You will get this error:
 ```
@@ -21,6 +26,6 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 /usr/share/dotnet/sdk/3.1.412/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.Publish.targets(881,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute() [/mnt/c/Users/JussiMattila/source/repos/IronPDF-bug-repro/IronPDF-bug-repro.csproj]
 /usr/share/dotnet/sdk/3.1.412/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.Publish.targets(881,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.ExecuteInstantiatedTask(ITaskExecutionHost taskExecutionHost, TaskLoggingContext taskLoggingContext, TaskHost taskHost, ItemBucket bucket, TaskExecutionMode howToExecuteTask) [/mnt/c/Users/JussiMattila/source/repos/IronPDF-bug-repro/IronPDF-bug-repro.csproj]
 ```
-The error is caused because IronPDF includes two files with the exact same RelativePath (see screenshot below), preventing the publishing process from completing successfully. Here's some information about this: https://github.com/dotnet/sdk/issues/3465#issuecomment-859455073 
+The error is caused because IronPDF causes two files with the exact same RelativePath to be included(see screenshot below), preventing the publishing process from completing successfully. Here's some information about this: https://github.com/dotnet/sdk/issues/3465#issuecomment-859455073 
 
 ![IronPdf single file publish bug](https://user-images.githubusercontent.com/8625258/131328586-da7b8dba-2aaa-417b-85d0-7351988b64b6.png)
